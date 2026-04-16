@@ -1,0 +1,17 @@
+# Build artifacts
+obj/
+city_manager
+
+# Runtime data (district directories created by the program)
+data/
+
+# Editor/IDE files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
