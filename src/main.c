@@ -36,15 +36,11 @@ int main(int argc, char *argv[])
         break;
 
     case CMD_VIEW:
-        printf("[STUB] Would execute VIEW on district '%s', report_id=%d as %s '%s'\n",
-               args.district, args.report_id, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "VIEW");
+        view_report(args.district, &args);
         break;
 
     case CMD_REMOVE_REPORT:
-        printf("[STUB] Would execute REMOVE_REPORT on district '%s', report_id=%d as %s '%s'\n",
-               args.district, args.report_id, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "REMOVE_REPORT");
+        remove_report(args.district, &args);
         break;
 
     case CMD_UPDATE_THRESHOLD:

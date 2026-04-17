@@ -192,3 +192,138 @@ int list_reports(const char *district, const Args *args)
 
     return 0;
 }
+
+// view_report
+int view_report(const char *district, const Args *args)
+{
+    char path[256];
+    snprintf(path, sizeof(path), "data/%s/reports.dat", district);
+
+    if (check_role_access(path, args->role, 0) != 0)
+        return -1;
+
+    int fd = open(path, O_RDONLY);
+    if (fd == -1)
+    {
+        perror("view_report: open failed");
+        return -1;
+    }
+
+    Report r;
+    int found = 0;
+    while (read_full(fd, &r, sizeof(Report)) == (ssize_t)sizeof(Report))
+    {
+        if (r.report_id != args->report_id)
+            continue;
+
+        char ts_str[32];
+        struct tm *ts = localtime(&r.timestamp);
+        strftime(ts_str, sizeof(ts_str), "%Y-%m-%d %H:%M:%S", ts);
+
+        printf("------------------------------------------------------------\n");
+        printf("Report ID   : %d\n", r.report_id);
+        printf("Inspector   : %s\n", r.inspector_name);
+        printf("Category    : %s\n", r.category);
+        printf("Severity    : %d (%s)\n", r.severity,
+               r.severity == 1 ? "minor" : r.severity == 2 ? "moderate"
+                                                           : "critical");
+        printf("GPS         : %.6f, %.6f\n", r.gps_lat, r.gps_lon);
+        printf("Timestamp   : %s\n", ts_str);
+        printf("Description : %s\n", r.description);
+        printf("------------------------------------------------------------\n");
+        found = 1;
+        break;
+    }
+
+    close(fd);
+
+    if (!found)
+    {
+        fprintf(stderr, "Error: report #%d not found in '%s'\n", args->report_id, district);
+        return -1;
+    }
+
+    const char *role_str = (args->role == ROLE_MANAGER) ? "manager" : "inspector";
+    char op[64];
+    snprintf(op, sizeof(op), "VIEW id=%d", args->report_id);
+    log_operation(district, role_str, args->username, op);
+
+    return 0;
+}
+
+// remove_report
+int remove_report(const char *district, const Args *args)
+{
+    char path[256];
+    snprintf(path, sizeof(path), "data/%s/reports.dat", district);
+
+    // Manager-only operation
+    if (args->role != ROLE_MANAGER)
+    {
+        fprintf(stderr, "Error: only managers can remove reports\n");
+        return -1;
+    }
+
+    if (check_role_access(path, args->role, 1) != 0)
+        return -1;
+
+    int fd = open(path, O_RDWR);
+    if (fd == -1)
+    {
+        perror("remove_report: open failed");
+        return -1;
+    }
+
+    // Get total file size and derive number of records
+    off_t file_size = lseek(fd, 0, SEEK_END);
+    int count = (int)(file_size / (off_t)sizeof(Report));
+
+    if (count == 0)
+    {
+        fprintf(stderr, "Error: no reports in district '%s'\n", district);
+        close(fd);
+        return -1;
+    }
+
+    int target_index = -1;
+    Report r;
+    for (int i = 0; i < count; i++)
+    {
+        lseek(fd, (off_t)i * (off_t)sizeof(Report), SEEK_SET);
+        if (read_full(fd, &r, sizeof(Report)) != (ssize_t)sizeof(Report))
+            break;
+        if (r.report_id == args->report_id)
+        {
+            target_index = i;
+            break;
+        }
+    }
+
+    if (target_index == -1)
+    {
+        fprintf(stderr, "Error: report #%d not found in '%s'\n", args->report_id, district);
+        close(fd);
+        return -1;
+    }
+
+    Report temp;
+    for (int i = target_index + 1; i < count; i++)
+    {
+        lseek(fd, (off_t)i * (off_t)sizeof(Report), SEEK_SET);
+        read_full(fd, &temp, sizeof(Report));
+
+        lseek(fd, (off_t)(i - 1) * (off_t)sizeof(Report), SEEK_SET);
+        write(fd, &temp, sizeof(Report));
+    }
+
+    ftruncate(fd, file_size - (off_t)sizeof(Report));
+    close(fd);
+
+    printf("Report #%d removed from district '%s'\n", args->report_id, district);
+
+    char op[64];
+    snprintf(op, sizeof(op), "REMOVE id=%d", args->report_id);
+    log_operation(district, "manager", args->username, op);
+
+    return 0;
+}
