@@ -23,4 +23,7 @@ int view_report(const char *district, const Args *args);
 // remove_report - Manager only: delete a record, shift remaining records, truncate
 int remove_report(const char *district, const Args *args);
 
+// update_threshold
+int update_threshold(const char *district, const Args *args);
+
 #endif /* REPORT_IO_H */

@@ -5,6 +5,7 @@
 #include "district.h"
 #include "logger.h"
 #include "report_io.h"
+#include "filter.h"
 
 /*
  * main.c - Entry Point for city_manager
@@ -22,8 +23,6 @@ int main(int argc, char *argv[])
 
     if (ensure_district(args.district) != 0)
         return EXIT_FAILURE;
-
-    const char *role_str = (args.role == ROLE_MANAGER) ? "manager" : "inspector";
 
     switch (args.command)
     {
@@ -44,15 +43,11 @@ int main(int argc, char *argv[])
         break;
 
     case CMD_UPDATE_THRESHOLD:
-        printf("[STUB] Would execute UPDATE_THRESHOLD on district '%s', value=%d as %s '%s'\n",
-               args.district, args.threshold_value, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "UPDATE_THRESHOLD");
+        update_threshold(args.district, &args);
         break;
 
     case CMD_FILTER:
-        printf("[STUB] Would execute FILTER on district '%s' with %d condition(s) as %s '%s'\n",
-               args.district, args.filter_count, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "FILTER");
+        filter_reports(args.district, &args);
         break;
 
     case CMD_UNKNOWN:

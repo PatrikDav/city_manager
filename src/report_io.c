@@ -348,3 +348,61 @@ int remove_report(const char *district, const Args *args)
 
     return 0;
 }
+
+// update_threshold
+int update_threshold(const char *district, const Args *args)
+{
+    char path[256];
+    snprintf(path, sizeof(path), "data/%s/district.cfg", district);
+
+    // Manager only
+    if (args->role != ROLE_MANAGER)
+    {
+        fprintf(stderr, "Error: only managers can update the threshold\n");
+        return -1;
+    }
+
+    // Verify district.cfg still has exactly 0640 permissions
+    // If someone changed them externally the spec requires we refuse and report it
+    struct stat sb;
+    if (stat(path, &sb) == -1)
+    {
+        perror("update_threshold: stat failed");
+        return -1;
+    }
+
+    if ((sb.st_mode & 0777) != PERM_DISTRICT_CFG)
+    {
+        fprintf(stderr,
+                "Error: district.cfg permissions are %04o, expected %04o — refusing write\n",
+                sb.st_mode & 0777, PERM_DISTRICT_CFG);
+        return -1;
+    }
+
+    // Open and overwrite (O_TRUNC resets the file to 0 bytes before writing)
+    int fd = open(path, O_WRONLY | O_TRUNC);
+    if (fd == -1)
+    {
+        perror("update_threshold: open failed");
+        return -1;
+    }
+
+    char content[64];
+    ssize_t len = snprintf(content, sizeof(content), "threshold=%d\n", args->threshold_value);
+    if (write(fd, content, (size_t)len) != len)
+    {
+        perror("update_threshold: write failed");
+        close(fd);
+        return -1;
+    }
+
+    close(fd);
+
+    printf("Threshold updated to %d in district '%s'\n", args->threshold_value, district);
+
+    char logop[64];
+    snprintf(logop, sizeof(logop), "UPDATE_THRESHOLD value=%d", args->threshold_value);
+    log_operation(district, "manager", args->username, logop);
+
+    return 0;
+}
