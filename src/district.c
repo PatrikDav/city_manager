@@ -20,10 +20,7 @@ static int create_file_if_missing(const char *path, mode_t mode, const char *con
     if (fd == -1)
     {
         if (errno == EEXIST)
-        {
-            set_permissions(path, mode);
             return 0;
-        }
         perror("create_file_if_missing: open failed");
         return -1;
     }

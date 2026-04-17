@@ -51,8 +51,8 @@ make rebuild  # Clean + compile
 # Update severity threshold (manager only)
 ./city_manager --role manager --user Alice --update_threshold downtown 3
 
-# Filter reports by conditions
-./city_manager --role inspector --user John --filter downtown severity:>=:2 category:==:road
+# Filter reports by conditions (quote operators that contain > or <)
+./city_manager --role inspector --user John --filter downtown 'severity:>=:2' 'category:==:road'
 ```
 
 ## Project Structure
@@ -66,14 +66,20 @@ city_manager/
 │   ├── permissions.h     # Permission constants and enforcement
 │   ├── district.h        # District directory initialization
 │   ├── logger.h          # Operation logging
-│   └── report_io.h       # Report CRUD operations
+│   ├── report_io.h       # Report CRUD operations
+│   ├── symlinks.h        # Symlink create and dangling detection
+│   └── filter.h          # Condition struct, parse/match/filter functions
 ├── src/
 │   ├── main.c            # Entry point and command dispatch
 │   ├── args.c            # Argument parsing
 │   ├── permissions.c     # chmod, stat-based checks, permission string
 │   ├── district.c        # District directory and file creation
 │   ├── logger.c          # Append timestamped entries to logged_district
-│   └── report_io.c       # add, list reports with binary POSIX I/O
+│   ├── report_io.c       # add, list, view, remove, update_threshold
+│   ├── symlinks.c        # symlink(), lstat(), resolve_or_warn()
+│   └── filter.c          # parse_condition, match_condition (AI-assisted)
 ├── data/                 # Runtime: district directories (gitignored)
-└── tests/                # Test scripts
+├── tests/
+│   └── test_commands.sh  # End-to-end test script
+└── ai_usage.md           # AI-assisted function documentation
 ```
