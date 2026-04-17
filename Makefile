@@ -16,7 +16,8 @@ SRCS = src/main.c \
        src/args.c \
        src/permissions.c \
        src/district.c \
-       src/logger.c
+       src/logger.c \
+       src/report_io.c
 
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

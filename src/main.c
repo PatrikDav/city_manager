@@ -4,6 +4,7 @@
 #include "report.h"
 #include "district.h"
 #include "logger.h"
+#include "report_io.h"
 
 /*
  * main.c - Entry Point for city_manager
@@ -27,15 +28,11 @@ int main(int argc, char *argv[])
     switch (args.command)
     {
     case CMD_ADD:
-        printf("[STUB] Would execute ADD on district '%s' as %s '%s'\n",
-               args.district, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "ADD");
+        add_report(args.district, &args);
         break;
 
     case CMD_LIST:
-        printf("[STUB] Would execute LIST on district '%s' as %s '%s'\n",
-               args.district, role_str, args.username);
-        log_operation(args.district, role_str, args.username, "LIST");
+        list_reports(args.district, &args);
         break;
 
     case CMD_VIEW:

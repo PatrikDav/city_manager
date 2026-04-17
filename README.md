@@ -59,13 +59,21 @@ make rebuild  # Clean + compile
 
 ```
 city_manager/
-├── Makefile              # Build system
-├── include/              # Header files (.h)
-│   ├── report.h          # Report data structure
-│   ├── args.h            # Command-line argument types
-├── src/                  # Source files (.c)
+├── Makefile
+├── include/
+│   ├── report.h          # Report struct (fixed-size binary record)
+│   ├── args.h            # Role/Command enums, Args struct
+│   ├── permissions.h     # Permission constants and enforcement
+│   ├── district.h        # District directory initialization
+│   ├── logger.h          # Operation logging
+│   └── report_io.h       # Report CRUD operations
+├── src/
 │   ├── main.c            # Entry point and command dispatch
 │   ├── args.c            # Argument parsing
+│   ├── permissions.c     # chmod, stat-based checks, permission string
+│   ├── district.c        # District directory and file creation
+│   ├── logger.c          # Append timestamped entries to logged_district
+│   └── report_io.c       # add, list reports with binary POSIX I/O
 ├── data/                 # Runtime: district directories (gitignored)
 └── tests/                # Test scripts
 ```
