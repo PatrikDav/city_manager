@@ -6,6 +6,7 @@
 #include <errno.h>
 #include "district.h"
 #include "permissions.h"
+#include "symlinks.h"
 
 /*
  * district.c - District Directory Initialization
@@ -74,6 +75,10 @@ int ensure_district(const char *name)
 
     snprintf(path, sizeof(path), "data/%s/logged_district", name);
     if (create_file_if_missing(path, PERM_LOGGED, NULL) != 0)
+        return -1;
+
+    // Create the symlink: active_reports-<name> -> data/<name>/reports.dat
+    if (create_district_symlink(name) != 0)
         return -1;
 
     return 0;

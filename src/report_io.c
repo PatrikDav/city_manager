@@ -8,6 +8,7 @@
 #include "report_io.h"
 #include "permissions.h"
 #include "logger.h"
+#include "symlinks.h"
 
 /*
  * report_io.c - Report CRUD operations
@@ -155,6 +156,26 @@ int list_reports(const char *district, const Args *args)
 
     printf("File: reports.dat | size: %lld bytes | permissions: %s | modified: %s\n",
            (long long)sb.st_size, perm_str, mtime_str);
+
+    // Show symlink status using lstat() to inspect the link itself
+    char link_path[256];
+    char link_target[256];
+    snprintf(link_path, sizeof(link_path), "active_reports-%s", district);
+
+    // readlink()
+    ssize_t rlen = readlink(link_path, link_target, sizeof(link_target) - 1);
+    if (rlen != -1)
+    {
+        link_target[rlen] = '\0';
+        int status = resolve_or_warn(link_path);
+        printf("Symlink: %s -> %s [%s]\n",
+               link_path, link_target, status == 0 ? "OK" : "DANGLING");
+    }
+    else
+    {
+        printf("Symlink: active_reports-%s [not found]\n", district);
+    }
+
     printf("------------------------------------------------------------\n");
 
     int fd = open(path, O_RDONLY);
