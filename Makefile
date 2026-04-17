@@ -2,7 +2,7 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -std=c11 -Iinclude -g
+CFLAGS = -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200809L -Iinclude -g
 
 SRCDIR = src
 
@@ -12,7 +12,11 @@ INCDIR = include
 
 TARGET = city_manager
 
-SRCS = $(wildcard $(SRCDIR)/*.c)
+SRCS = src/main.c \
+       src/args.c \
+       src/permissions.c \
+       src/district.c \
+       src/logger.c
 
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
