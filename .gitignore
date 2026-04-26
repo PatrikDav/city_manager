@@ -2,8 +2,6 @@
 obj/
 city_manager
 
-# Runtime data (district directories created by the program)
-data/
 
 # Runtime symlinks created by the program
 active_reports-*

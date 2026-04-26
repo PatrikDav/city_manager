@@ -1,0 +1,25 @@
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=inspector user=John op=ADD id=1
+[2026-04-17 15:59:34] role=inspector user=John op=ADD id=2
+[2026-04-17 15:59:34] role=inspector user=Maria op=ADD id=3
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=inspector user=John op=VIEW id=1
+[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=2
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=1
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=3
+[2026-04-17 15:59:34] role=inspector user=John op=ADD id=1
+[2026-04-17 15:59:34] role=inspector user=John op=ADD id=2
+[2026-04-17 15:59:34] role=inspector user=Maria op=ADD id=3
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=manager user=Alice op=UPDATE_THRESHOLD value=4
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=FILTER
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
+[2026-04-17 15:59:34] role=inspector user=John op=LIST
