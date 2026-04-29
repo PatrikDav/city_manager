@@ -1,6 +1,10 @@
 # Build artifacts
 obj/
 city_manager
+monitor_reports
+
+# Monitor PID file (runtime, recreated on each launch)
+data/.monitor_pid
 
 
 # Runtime symlinks created by the program
