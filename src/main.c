@@ -6,6 +6,7 @@
 #include "logger.h"
 #include "report_io.h"
 #include "filter.h"
+#include "remove_district.h"
 
 /*
  * main.c - Entry Point for city_manager
@@ -21,7 +22,8 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    if (ensure_district(args.district) != 0)
+    if (args.command != CMD_REMOVE_DISTRICT &&
+        ensure_district(args.district) != 0)
         return EXIT_FAILURE;
 
     switch (args.command)
@@ -48,6 +50,10 @@ int main(int argc, char *argv[])
 
     case CMD_FILTER:
         filter_reports(args.district, &args);
+        break;
+
+    case CMD_REMOVE_DISTRICT:
+        remove_district(args.district, &args);
         break;
 
     case CMD_UNKNOWN:

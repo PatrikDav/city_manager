@@ -143,6 +143,18 @@ int parse_args(int argc, char *argv[], Args *args)
             args->threshold_value = atoi(argv[i + 2]);
             i += 3;
         }
+        else if (strcmp(argv[i], "--remove_district") == 0)
+        {
+            if (i + 1 >= argc)
+            {
+                fprintf(stderr, "Error: --remove_district requires a district name\n");
+                return -1;
+            }
+            args->command = CMD_REMOVE_DISTRICT;
+            strncpy(args->district, argv[i + 1], NAME_LEN - 1);
+            args->district[NAME_LEN - 1] = '\0';
+            i += 2;
+        }
         else if (strcmp(argv[i], "--filter") == 0)
         {
             if (i + 1 >= argc)
@@ -199,6 +211,7 @@ void print_usage(const char *program_name)
     fprintf(stderr, "  --remove_report <district> <report_id>  Remove a report (manager only)\n");
     fprintf(stderr, "  --update_threshold <district> <value>   Update severity threshold (manager only)\n");
     fprintf(stderr, "  --filter <district> <conditions...>     Filter reports by conditions\n");
+    fprintf(stderr, "  --remove_district <district>            Delete the district directory (manager only)\n");
     fprintf(stderr, "\nFilter condition format: field:operator:value\n");
     fprintf(stderr, "  Fields:    severity, category, inspector, timestamp\n");
     fprintf(stderr, "  Operators: ==, !=, <, <=, >, >=\n");

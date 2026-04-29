@@ -19,7 +19,8 @@ SRCS = src/main.c \
        src/logger.c \
        src/report_io.c \
        src/symlinks.c \
-       src/filter.c
+       src/filter.c \
+       src/remove_district.c
 
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

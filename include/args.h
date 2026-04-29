@@ -44,6 +44,7 @@ typedef enum
     CMD_REMOVE_REPORT,    /* --remove_report <district> <id>      : Delete a report            */
     CMD_UPDATE_THRESHOLD, /* --update_threshold <district> <val>  : Set severity threshold      */
     CMD_FILTER,           /* --filter <district> <conditions...>  : Filter reports by criteria  */
+    CMD_REMOVE_DISTRICT,  /* --remove_district <district>         : Delete the entire district  */
     CMD_UNKNOWN           /* No valid command was found on the command line                     */
 } Command;
 
