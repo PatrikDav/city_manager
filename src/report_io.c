@@ -9,6 +9,7 @@
 #include "permissions.h"
 #include "logger.h"
 #include "symlinks.h"
+#include "monitor_notify.h"
 
 /*
  * report_io.c - Report CRUD operations
@@ -125,6 +126,11 @@ int add_report(const char *district, const Args *args)
     char op[64];
     snprintf(op, sizeof(op), "ADD id=%d", report.report_id);
     log_operation(district, role_str, args->username, op);
+
+    // Notify the monitor. notify_monitor()
+    char monitor_msg[128];
+    notify_monitor(monitor_msg, sizeof(monitor_msg));
+    log_operation(district, role_str, args->username, monitor_msg);
 
     return 0;
 }
