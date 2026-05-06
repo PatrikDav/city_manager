@@ -3,6 +3,9 @@ obj/
 city_manager
 monitor_reports
 
+# Test scripts (local dev tool only, not a deliverable)
+tests/
+
 # Monitor PID file (runtime, recreated on each launch)
 data/.monitor_pid
 

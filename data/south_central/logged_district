@@ -2,6 +2,4 @@
 [2026-05-06 08:31:10] role=inspector user=Ion op=MONITOR_NOTIFIED pid=5658
 [2026-05-06 08:31:10] role=inspector user=Maria op=ADD id=2
 [2026-05-06 08:31:10] role=inspector user=Maria op=MONITOR_NOTIFIED pid=5658
-[2026-05-06 08:31:10] role=manager user=Alice op=ADD id=3
-[2026-05-06 08:31:10] role=manager user=Alice op=MONITOR_NOTIFIED pid=5658
 [2026-05-06 08:31:11] role=inspector user=Ion op=LIST
