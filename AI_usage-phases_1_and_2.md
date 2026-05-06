@@ -72,3 +72,9 @@ string and applies it via a chain of `strcmp(op, "==") == 0` checks.
   name collisions if another translation unit defines a function with the same name.
 - `strncat` is easy to misuse (the size argument is the *remaining space*, not
   the total buffer size). `strncpy` + explicit null-terminator is safer here.
+
+---
+
+## Phase 2
+
+No AI tools were used in Phase 2. All signal handling, fork/exec, monitor, and notification logic was written manually.

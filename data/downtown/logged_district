@@ -1,29 +1,31 @@
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=inspector user=John op=ADD id=1
-[2026-04-17 15:59:34] role=inspector user=John op=ADD id=2
-[2026-04-17 15:59:34] role=inspector user=Maria op=ADD id=3
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=inspector user=John op=VIEW id=1
-[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=2
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=1
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=manager user=Alice op=REMOVE id=3
-[2026-04-17 15:59:34] role=inspector user=John op=ADD id=1
-[2026-04-17 15:59:34] role=inspector user=John op=ADD id=2
-[2026-04-17 15:59:34] role=inspector user=Maria op=ADD id=3
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=manager user=Alice op=UPDATE_THRESHOLD value=4
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=FILTER
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-04-17 15:59:34] role=inspector user=John op=LIST
-[2026-05-06 08:15:32] role=inspector user=John op=ADD id=1
-[2026-05-06 08:15:32] role=inspector user=John op=MONITOR_NOT_INFORMED reason=pid_file_missing
-[2026-05-06 08:15:33] role=inspector user=John op=ADD id=2
-[2026-05-06 08:15:33] role=inspector user=John op=MONITOR_NOTIFIED pid=2219
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=inspector user=John op=ADD id=1
+[2026-05-06 08:29:16] role=inspector user=John op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=John op=ADD id=2
+[2026-05-06 08:29:16] role=inspector user=John op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=Maria op=ADD id=3
+[2026-05-06 08:29:16] role=inspector user=Maria op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=inspector user=John op=VIEW id=1
+[2026-05-06 08:29:16] role=manager user=Alice op=REMOVE id=2
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=manager user=Alice op=REMOVE id=1
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=manager user=Alice op=REMOVE id=3
+[2026-05-06 08:29:16] role=inspector user=John op=ADD id=1
+[2026-05-06 08:29:16] role=inspector user=John op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=John op=ADD id=2
+[2026-05-06 08:29:16] role=inspector user=John op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=Maria op=ADD id=3
+[2026-05-06 08:29:16] role=inspector user=Maria op=MONITOR_NOT_INFORMED reason=pid_file_missing
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=manager user=Alice op=UPDATE_THRESHOLD value=4
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=FILTER
+[2026-05-06 08:29:16] role=inspector user=John op=LIST
+[2026-05-06 08:29:16] role=inspector user=John op=LIST

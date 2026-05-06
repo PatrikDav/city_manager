@@ -32,6 +32,7 @@ make rebuild  # Clean + compile
 | `--remove_report` | `<district> <report_id>` | Manager only |
 | `--update_threshold` | `<district> <value>` | Manager only |
 | `--filter` | `<district> <conditions...>` | Both roles |
+| `--remove_district` | `<district>` | Manager only |
 
 ### Examples
 
@@ -53,6 +54,24 @@ make rebuild  # Clean + compile
 
 # Filter reports by conditions (quote operators that contain > or <)
 ./city_manager --role inspector --user John --filter downtown 'severity:>=:2' 'category:==:road'
+
+# Remove an entire district (manager only)
+./city_manager --role manager --user Alice --remove_district downtown
+```
+
+## monitor_reports
+
+A companion background process that listens for new report events.
+
+```bash
+# Start in background (run from project root)
+./monitor_reports &
+
+# It writes its PID to data/.monitor_pid
+# When city_manager adds a report, it sends SIGUSR1 to the monitor
+# The monitor prints a message to stdout for each SIGUSR1 received
+# Stop it cleanly with Ctrl+C (SIGINT) or:
+kill -INT $(cat data/.monitor_pid)
 ```
 
 ## Project Structure
@@ -70,16 +89,19 @@ city_manager/
 │   ├── symlinks.h        # Symlink create and dangling detection
 │   └── filter.h          # Condition struct, parse/match/filter functions
 ├── src/
-│   ├── main.c            # Entry point and command dispatch
-│   ├── args.c            # Argument parsing
-│   ├── permissions.c     # chmod, stat-based checks, permission string
-│   ├── district.c        # District directory and file creation
-│   ├── logger.c          # Append timestamped entries to logged_district
-│   ├── report_io.c       # add, list, view, remove, update_threshold
-│   ├── symlinks.c        # symlink(), lstat(), resolve_or_warn()
-│   └── filter.c          # parse_condition, match_condition (AI-assisted)
-├── data/                 # Runtime: district directories (gitignored)
+│   ├── main.c              # Entry point and command dispatch
+│   ├── args.c              # Argument parsing
+│   ├── permissions.c       # chmod, stat-based checks, permission string
+│   ├── district.c          # District directory and file creation
+│   ├── logger.c            # Append timestamped entries to logged_district
+│   ├── report_io.c         # add, list, view, remove, update_threshold
+│   ├── symlinks.c          # symlink(), lstat(), resolve_or_warn()
+│   ├── filter.c            # parse_condition, match_condition
+│   ├── remove_district.c   # fork+execvp rm -rf, symlink unlink
+│   ├── monitor_notify.c    # read .monitor_pid, send SIGUSR1
+│   └── monitor_reports.c   # standalone monitor binary
+├── data/                   # Runtime: district directories (gitignored)
 ├── tests/
-│   └── test_commands.sh  # End-to-end test script
-└── ai_usage.md           # AI-assisted function documentation
+│   └── test_commands.sh    # End-to-end test script
+└── AI_usage-phases_1_and_2.md  # AI-assisted function documentation
 ```

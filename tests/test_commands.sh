@@ -274,6 +274,37 @@ assert_contains "log has role=inspector" "$LOG" "role=inspector"
 
 # ---------------------------------------------------------------------------
 echo ""
+echo "=== 12. remove_district ==="
+# ---------------------------------------------------------------------------
+
+# Create a throwaway district to delete
+printf 'road\n44.43\n26.10\n1\ntemp report\n' | \
+    $BIN --role manager --user Alice --add tmp_del > /dev/null 2>&1
+[ -d "data/tmp_del" ]
+assert_exit_ok $? "throwaway district tmp_del exists before remove"
+[ -L "active_reports-tmp_del" ]
+assert_exit_ok $? "symlink active_reports-tmp_del exists before remove"
+
+# Inspector cannot remove a district
+OUT=$($BIN --role inspector --user John --remove_district tmp_del 2>&1)
+assert_contains "inspector cannot remove_district" "$OUT" "only managers can remove"
+[ -d "data/tmp_del" ]
+assert_exit_ok $? "district still exists after rejected inspector attempt"
+
+# Manager successfully removes the district
+OUT=$($BIN --role manager --user Alice --remove_district tmp_del 2>&1)
+assert_contains "manager remove_district succeeds" "$OUT" "removed"
+[ ! -d "data/tmp_del" ]
+assert_exit_ok $? "data/tmp_del directory is gone after remove"
+[ ! -L "active_reports-tmp_del" ]
+assert_exit_ok $? "symlink active_reports-tmp_del is gone after remove"
+
+# Removing a non-existent district gives an error
+OUT=$($BIN --role manager --user Alice --remove_district tmp_del 2>&1)
+assert_contains "remove non-existent district gives error" "$OUT" "Error"
+
+# ---------------------------------------------------------------------------
+echo ""
 echo "=== Results ==="
 # ---------------------------------------------------------------------------
 
