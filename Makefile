@@ -10,8 +10,9 @@ OBJDIR = obj
 
 INCDIR = include
 
-TARGET = city_manager
+TARGET  = city_manager
 MONITOR = monitor_reports
+SCORER  = scorer
 
 SRCS = src/main.c \
        src/args.c \
@@ -29,12 +30,18 @@ OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 MONITOR_SRCS = src/monitor_reports.c
 MONITOR_OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(MONITOR_SRCS))
 
-all: $(TARGET) $(MONITOR)
+SCORER_SRCS = src/scorer.c
+SCORER_OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SCORER_SRCS))
+
+all: $(TARGET) $(MONITOR) $(SCORER)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(MONITOR): $(MONITOR_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(SCORER): $(SCORER_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
@@ -44,7 +51,7 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 clean:
-	rm -rf $(OBJDIR) $(TARGET) $(MONITOR)
+	rm -rf $(OBJDIR) $(TARGET) $(MONITOR) $(SCORER)
 
 rebuild: clean all
 
